@@ -34,9 +34,9 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 		return deferred.promise;
 	};
 
-	fac.renameGroup = function(oldName, newDisplayName) {
+	fac.renameGroup = function(name, newDisplayName) {
 		var group = { 
-			"name":oldName, 
+			"name":name, 
 			"displayName":newDisplayName 
 		};
 		
