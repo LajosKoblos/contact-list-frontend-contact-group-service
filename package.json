@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/LajosKoblos/contact-list-frontend-contact-group-service/issues"
   },
-  "homepage": "https://github.com/LajosKoblos/contact-list-frontend-contact-group-service#readme"
+  "homepage": "https://github.com/LajosKoblos/contact-list-frontend-contact-group-service#readme",
+  "dependencies": {
+    "authService": "..\\contact-list-frontend-auth-service\\authService-1.0.1.tgz",
+    "jasmine": "^2.4.1",
+    "karma": "^1.1.0",
+    "karma-jasmine": "^1.0.2"
+  },
+  "devDependencies": {
+    "angular": "^1.5.7",
+    "angular-mocks": "^1.5.7",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-ng-html2js-preprocessor": "^1.0.0"
+  }
 }
