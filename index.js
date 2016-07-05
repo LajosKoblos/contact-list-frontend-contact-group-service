@@ -3,10 +3,6 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 .factory("contactGroupService", function (authService, $q) {
 
 	var fac = {};
-	
-	fac.write2Console = function() {
-		console.log("contactGroupService is up");
-	};
 
 	fac.listGroups = function() {
 		var groupsList = [
@@ -38,10 +34,10 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 		return deferred.promise;
 	};
 
-	fac.renameGroup = function(oldName, newName, displayName) {
+	fac.renameGroup = function(oldName, newDisplayName) {
 		var group = { 
-			"name":newName, 
-			"displayName":displayName 
+			"name":oldName, 
+			"displayName":newDisplayName 
 		};
 		
 		var deferred = $q.defer();
