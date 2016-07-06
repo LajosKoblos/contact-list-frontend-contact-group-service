@@ -2,33 +2,77 @@
 
 describe('contactGroupService factory', function(){
 
-    var factory;
-    var self = this;
+    var $httpBackend;
+    var listGroupsHandler;
+    var $rootScope;
+    var groupService;
 
     beforeEach(function() {
-        module('contactGroupServiceModule');
 
-        inject(function ($injector, $rootScope) {
-            self.$rootScope = $rootScope;
-            factory = $injector.get('contactGroupService');
+        module("contactGroupServiceModule", function($provide, $httpProvider){
+            $provide.provider("$httpWithProtectionProvider", $httpProvider);
         });
+
+        inject(function (_$rootScope_,_$httpBackend_, contactGroupService) {
+            $httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            groupService = contactGroupService;
+        });
+
+    });
+
+    afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
     });
 
     describe('contactGroupService', function() {
 
-        describe('createGroup method', function() {
+        // describe('createGroup method', function() {
+        //
+        //     it('should return with a group object', function() {
+        //
+        //         var promise = factory.createGroup('name', 'displayName');
+        //
+        //         promise.then(function(data){
+        //             console.log(data);
+        //             expect(data.name).toBe('name');
+        //             expect(data.displayName).toBe('displayName');
+        //         });
+        //
+        //         self.$rootScope.$apply();
+        //
+        //     });
+        //
+        // });
 
-            it('should return with a group object', function() {
+        describe('listGroups method', function() {
 
-                var promise = factory.createGroup('name', 'displayName');
+            it('should return with an array of groups', function() {
+
+                var groupList = [{
+                    "name":"name1",
+                    "displayName":"displayName1"
+                }, {
+                    "name":"name2",
+                    "displayName":"displayName2"
+                }];
+
+                $httpBackend.expectGET('http://localhost:8080/groups');
+
+                listGroupsHandler = $httpBackend.when('GET', 'http://localhost:8080/groups')
+                                     .respond(groupList);
+
+                var promise = groupService.listGroups();
+
+                $rootScope.$apply();
 
                 promise.then(function(data){
-                    console.log(data);
-                    expect(data.name).toBe('name');
-                    expect(data.displayName).toBe('displayName');
+                    console.log(data.data);
+                    expect(data.data).toEqual(groupList)
                 });
 
-                self.$rootScope.$apply();
+                $httpBackend.flush();
 
             });
 
