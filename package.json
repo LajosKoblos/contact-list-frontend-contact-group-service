@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/LajosKoblos/contact-list-frontend-contact-group-service#readme",
   "dependencies": {
-    "authService": "..\\contact-list-frontend-auth-service\\authService-1.0.1.tgz"
+    "authService": "file:..\\contact-list-frontend-auth-service"
   },
   "devDependencies": {
     "jasmine": "^2.4.1",
