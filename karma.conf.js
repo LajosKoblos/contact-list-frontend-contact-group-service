@@ -19,7 +19,7 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       '../contact-list-frontend-auth-service/index.js',
       'test/*.js',
-      'js/*.js'
+      '*.js'
     ],
 
 

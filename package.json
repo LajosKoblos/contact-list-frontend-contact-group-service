@@ -18,12 +18,12 @@
   },
   "homepage": "https://github.com/LajosKoblos/contact-list-frontend-contact-group-service#readme",
   "dependencies": {
-    "authService": "..\\contact-list-frontend-auth-service\\authService-1.0.1.tgz",
-    "jasmine": "^2.4.1",
-    "karma": "^1.1.0",
-    "karma-jasmine": "^1.0.2"
+    "authService": "..\\contact-list-frontend-auth-service\\authService-1.0.1.tgz"
   },
   "devDependencies": {
+    "jasmine": "^2.4.1",
+    "karma": "^1.1.0",
+    "karma-jasmine": "^1.0.2",
     "angular": "^1.5.7",
     "angular-mocks": "^1.5.7",
     "karma-chrome-launcher": "^1.0.1",
