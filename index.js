@@ -16,7 +16,7 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 		var httpPromise = $httpWithProtection(config);
 
 		httpPromise.then(function(result) {
-            deferred.resolve(result);
+            deferred.resolve(result.data);
 		}, function(error){
             deferred.reject(createServerErrorObject(error));
 		});
@@ -28,23 +28,9 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 
         var deferred = $q.defer();
 
-        if(typeof groupObject.id.contactGroupName === 'undefined' || typeof groupObject.displayName === 'undefined' || groupObject.id.contactGroupName == "" || groupObject.displayName == "") {
+        var errorObject;
 
-            var fieldsObject = {};
-
-            if(typeof groupObject.id.contactGroupName === 'undefined' || groupObject.id.contactGroupName == "") {
-                fieldsObject.name = ["name is required"];
-            }
-
-            if (typeof groupObject.displayName === 'undefined' || groupObject.displayName == "") {
-                fieldsObject.displayName = ["displayName is required"];
-            }
-
-            var errorObject = {
-                "message":"Argument Error",
-                "fields": fieldsObject
-            };
-
+        if(errorObject = checkGroupObjectForUndefinedFields(groupObject)) {
             deferred.reject(errorObject);
             return deferred.promise;
         }
@@ -68,10 +54,17 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 
 	fac.renameGroup = function(groupObject) {
 
+        var deferred = $q.defer();
 
+        var errorObject;
+
+        if(errorObject = checkGroupObjectForUndefinedFields(groupObject)) {
+            deferred.reject(errorObject);
+            return deferred.promise;
+        }
 
         var config = {
-            url: "http://localhost:8080/groups/"+groupObject.name,
+            url: "http://localhost:8080/groups/"+groupObject.id.contactGroupName,
             method: "PUT",
             data: groupObject
         };
@@ -105,6 +98,30 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
             message: "Argument Error",
             fields: fieldsObject
         };
+    }
+
+    function checkGroupObjectForUndefinedFields(groupObject) {
+
+        if(typeof groupObject.id.contactGroupName === 'undefined' || typeof groupObject.displayName === 'undefined' || groupObject.id.contactGroupName == "" || groupObject.displayName == "") {
+
+            var fieldsObject = {};
+
+            if(typeof groupObject.id.contactGroupName === 'undefined' || groupObject.id.contactGroupName == "") {
+                fieldsObject.name = ["This field is required"];
+            }
+
+            if (typeof groupObject.displayName === 'undefined' || groupObject.displayName == "") {
+                fieldsObject.displayName = ["This field is required"];
+            }
+
+            var errorObject = {
+                "message":"Argument Error",
+                "fields": fieldsObject
+            };
+
+            return errorObject;
+        }
+
     }
 
     return fac;

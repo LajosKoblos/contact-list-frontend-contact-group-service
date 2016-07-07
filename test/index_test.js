@@ -72,7 +72,7 @@ describe('contactGroupService factory', function(){
                 var errorObject = {
                     "message":"Argument Error",
                     "fields": {
-                        "name":["name is required"]
+                        "name":["This field is required"]
                     }
                 };
 
@@ -96,7 +96,7 @@ describe('contactGroupService factory', function(){
                 var errorObject = {
                     "message":"Argument Error",
                     "fields": {
-                        "displayName":["displayName is required"]
+                        "displayName":["This field is required"]
                     }
                 };
 
@@ -128,8 +128,8 @@ describe('contactGroupService factory', function(){
                 var errorObject = {
                     "message":"Argument Error",
                     "fields": {
-                        "displayName":["displayName is required"],
-                        "name":["name is required"]
+                        "displayName":["This field is required"],
+                        "name":["This field is required"]
                     }
                 };
 
@@ -254,7 +254,7 @@ describe('contactGroupService factory', function(){
                 });
 
                 promise.catch(function (reason) {
-                    console.log('createGroup: ', reason);
+                    console.log('renameGroup: ', reason);
                     expect(true).toEqual(false);
                 });
 
@@ -262,6 +262,103 @@ describe('contactGroupService factory', function(){
 
                 $httpBackend.flush();
                 
+            });
+
+            it('should return with an error if name is undefined', function() {
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":""
+                    },
+                    "displayName":"displayName1"
+                };
+
+                var errorObject = {
+                    "message":"Argument Error",
+                    "fields": {
+                        "name":["This field is required"]
+                    }
+                };
+
+                var promise = groupService.renameGroup(group);
+
+                promise.then(function (data) {
+                    expect(false).toBe(true);
+                });
+
+                promise.catch(function (reason) {
+                    console.log('createGroup: ', reason);
+                    expect(reason).toEqual(errorObject);
+                });
+
+                $rootScope.$apply();
+
+            });
+
+            it('should return with an error if displayName is undefined', function() {
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":"name1"
+                    },
+                    "displayName":""
+                };
+
+                var errorObject = {
+                    "message":"Argument Error",
+                    "fields": {
+                        "displayName":["This field is required"]
+                    }
+                };
+
+                var promise = groupService.renameGroup(group);
+
+                promise.then(function (data) {
+                    expect(false).toBe(true);
+                });
+
+                promise.catch(function (reason) {
+                    console.log('createGroup: ', reason);
+                    expect(reason).toEqual(errorObject);
+                });
+
+                $rootScope.$apply();
+
+            });
+
+            it('should return with an error if name is undefined', function() {
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":""
+                    },
+                    "displayName":""
+                };
+
+                var errorObject = {
+                    "message":"Argument Error",
+                    "fields": {
+                        "name":["This field is required"],
+                        "displayName":["This field is required"]
+                    }
+                };
+
+                var promise = groupService.renameGroup(group);
+
+                promise.then(function (data) {
+                    expect(false).toBe(true);
+                });
+
+                promise.catch(function (reason) {
+                    console.log('createGroup: ', reason);
+                    expect(reason).toEqual(errorObject);
+                });
+
+                $rootScope.$apply();
+
             });
             
         });
