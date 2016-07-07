@@ -30,24 +30,27 @@ describe('contactGroupService factory', function(){
 
         describe('createGroup method', function() {
 
-            it('should return with a group object', function() {
+            it('should return with 201 Created', function() {
 
                 var group = {
-                    "name":"name1",
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":"name1"
+                    },
                     "displayName":"displayName1"
                 };
 
                 $httpBackend.expectPOST('http://localhost:8080/groups');
 
                 listGroupsHandler = $httpBackend.when('POST', 'http://localhost:8080/groups')
-                                    .respond(201, group);
+                                    .respond(201,"");
 
                 var promise = groupService.createGroup(group);
 
                 promise.then(function(data){
                     console.log('createGroup: ', data.data);
                     expect(data.status).toEqual(201);
-                    expect(data.data).toEqual(group);
+                    expect(data.data).toEqual("");
                 });
 
                 $rootScope.$apply();
@@ -59,8 +62,11 @@ describe('contactGroupService factory', function(){
             it('should return with an error if name is undefined', function() {
 
                 var group = {
-                    "name":"",
-                    "displayName":"displayName2"
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":""
+                    },
+                    "displayName":"displayName1"
                 };
 
                 var errorObject = {
@@ -87,16 +93,19 @@ describe('contactGroupService factory', function(){
 
             it('should return with an error if displayName is undefined', function() {
 
-                var group = {
-                    "name":"name",
-                    "displayName":""
-                };
-
                 var errorObject = {
                     "message":"Argument Error",
                     "fields": {
                         "displayName":["displayName is required"]
                     }
+                };
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":"name1"
+                    },
+                    "displayName":""
                 };
 
                 var promise = groupService.createGroup(group);
@@ -116,17 +125,20 @@ describe('contactGroupService factory', function(){
 
             it('should return with an error if displayName and name is undefined', function() {
 
-                var group = {
-                    "name":"",
-                    "displayName":""
-                };
-
                 var errorObject = {
                     "message":"Argument Error",
                     "fields": {
-                        "name":["name is required"],
-                        "displayName":["displayName is required"]
+                        "displayName":["displayName is required"],
+                        "name":["name is required"]
                     }
+                };
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":""
+                    },
+                    "displayName":""
                 };
 
                 var promise = groupService.createGroup(group);

@@ -28,49 +28,61 @@ angular.module("contactGroupServiceModule", ["authServiceModule"])
 
         var deferred = $q.defer();
 
-        if(typeof groupObject.name === 'undefined' || typeof groupObject.displayName === 'undefined' ||
-            groupObject.name == "" || groupObject.displayName == "") {
-            
+        if(typeof groupObject.id.contactGroupName === 'undefined' || typeof groupObject.displayName === 'undefined' || groupObject.id.contactGroupName == "" || groupObject.displayName == "") {
+
             var fieldsObject = {};
-            
-            if(typeof groupObject.name === 'undefined' || groupObject.name == "") {
+
+            if(typeof groupObject.id.contactGroupName === 'undefined' || groupObject.id.contactGroupName == "") {
                 fieldsObject.name = ["name is required"];
             }
 
             if (typeof groupObject.displayName === 'undefined' || groupObject.displayName == "") {
                 fieldsObject.displayName = ["displayName is required"];
             }
-            
+
             var errorObject = {
                 "message":"Argument Error",
                 "fields": fieldsObject
             };
-            
+
             deferred.reject(errorObject);
             return deferred.promise;
         }
 
-        var httpPromise = $httpWithProtection({url: "http://localhost:8080/groups", method: "POST", data: groupObject});
+        var config = {
+            url: "http://localhost:8080/groups",
+            method: "POST",
+            data: groupObject
+        };
 
-        httpPromise.then(function(data) {
-            console.log('resolve');
-            deferred.resolve(data);
+        var httpPromise = $httpWithProtection(config);
+
+        httpPromise.then(function(result) {
+            deferred.resolve(result);
         }, function(error){
-            console.log('reject');
-            deferred.reject(error);
+            deferred.reject(createServerErrorObject(error));
         });
 
         return deferred.promise;
 	};
 
-	fac.renameGroup = function(name, newDisplayName) {
-		var group = { 
-			"name":name, 
-			"displayName":newDisplayName 
-		};
-		
-		var deferred = $q.defer();
-		deferred.resolve(group);
+	fac.renameGroup = function(groupObject) {
+
+
+
+        var config = {
+            url: "http://localhost:8080/groups/"+groupObject.name,
+            method: "PUT",
+            data: groupObject
+        };
+
+        var httpPromise = $httpWithProtection(config);
+
+        httpPromise.then(function(result) {
+            deferred.resolve(result);
+        }, function(error){
+            deferred.reject(createServerErrorObject(error));
+        });
 		
 		return deferred.promise;
 	};
