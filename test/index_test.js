@@ -227,6 +227,44 @@ describe('contactGroupService factory', function(){
             });
 
         });
+        
+        describe('modifyGroup method', function() {
+           
+            it('should return with 200 OK', function() {
+
+                var group = {
+                    "id": {
+                        "userName":"Admin",
+                        "contactGroupName":"name1"
+                    },
+                    "displayName":"displayName1"
+                };
+
+                $httpBackend.expectPUT('http://localhost:8080/groups/name1');
+
+                listGroupsHandler = $httpBackend.when('PUT', 'http://localhost:8080/groups/name1')
+                    .respond(200,"");
+
+                var promise = groupService.renameGroup(group);
+
+                promise.then(function(result){
+                    console.log('renameGroup: ', result.data);
+                    expect(result.status).toEqual(200);
+                    expect(result.data).toEqual("");
+                });
+
+                promise.catch(function (reason) {
+                    console.log('createGroup: ', reason);
+                    expect(true).toEqual(false);
+                });
+
+                $rootScope.$apply();
+
+                $httpBackend.flush();
+                
+            });
+            
+        });
 
     });
 
